@@ -1,0 +1,173 @@
+{
+	"info": {
+		"_postman_id": "cf250109-4934-4e44-bf8e-ac7a24352ede",
+		"name": "DemoProject",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "{{Demourl}}/channel/<channel_id>/allocation/merchant/<partner_id>?page=1&page\n_size=100",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.globals.set(\"Demourl\", \"https://inventory.example.com\");\r",
+							"console.log(pm.globals.get(\"Demourl\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var schema = {\r",
+							"    \"$schema\": \"http://json-schema.org/draft-07/schema\",\r",
+							"    \"$id\": \"http://example.com/example.json\",\r",
+							"    \"type\": \"array\",\r",
+							"    \"description\": \"The root schema comprises the entire JSON document.\",\r",
+							"    \"additionalItems\": true,\r",
+							"    \"items\": {\r",
+							"        \"$id\": \"#/items\",\r",
+							"        \"anyOf\": [\r",
+							"            {\r",
+							"                \"$id\": \"#/items/anyOf/0\",\r",
+							"                \"type\": \"object\",\r",
+							"                \"description\": \"An explanation about the purpose of this instance.\",\r",
+							"                \"required\": [\r",
+							"                    \"qty\",\r",
+							"                    \"sku\",\r",
+							"                    \"updatedTime\"\r",
+							"                ],\r",
+							"                \"properties\": {\r",
+							"                    \"qty\": {\r",
+							"                        \"$id\": \"#/items/anyOf/0/properties/qty\",\r",
+							"                        \"type\": \"string\",\r",
+							"                        \"description\": \"An explanation about the purpose of this instance.\"\r",
+							"                    },\r",
+							"                    \"sku\": {\r",
+							"                        \"$id\": \"#/items/anyOf/0/properties/sku\",\r",
+							"                        \"type\": \"string\",\r",
+							"                        \"description\": \"An explanation about the purpose of this instance.\"\r",
+							"                    },\r",
+							"                    \"updatedTime\": {\r",
+							"                        \"$id\": \"#/items/anyOf/0/properties/updatedTime\",\r",
+							"                        \"type\": \"string\",\r",
+							"                        \"description\": \"An explanation about the purpose of this instance.\"\r",
+							"                    }\r",
+							"                },\r",
+							"                \"additionalProperties\": true\r",
+							"            }\r",
+							"        ]\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"var schema = {\r",
+							"    \"items\": {\r",
+							"        \"type\": \"object\"\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"pm.test('Schema validation', function () {\r",
+							"   var result=tv4.validateResult(pm.response.json(), schema);\r",
+							" \r",
+							"    if(!result.valid){\r",
+							"        console.log(result);\r",
+							"    }\r",
+							" \r",
+							"    pm.expect(result.valid).to.be.true; \r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validate Status code\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate Response time\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate Status code name\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response must be valid and have a body\", function () {\r",
+							"     pm.response.to.be.ok;\r",
+							"     pm.response.to.be.withBody;\r",
+							"     pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response should be okay to process\", function () {\r",
+							"    pm.response.to.not.be.error;\r",
+							"    pm.response.to.have.jsonBody(\"\");\r",
+							"    pm.response.to.not.have.jsonBody(\"error\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"const nameval = pm.response.json();\r",
+							"console.log(nameval)\r",
+							"\r",
+							"count =1;\r",
+							"skuvalue = \"SKU0005\"\r",
+							"for(i=0;i<count;i++){\r",
+							"    if(nameval[i].sku == skuvalue){\r",
+							"        var quat = nameval[i].qty;\r",
+							"        var skuid = nameval[i].sku;\r",
+							"        var time = nameval[i].updatedTime;\r",
+							"   console.log(\"SKU\" + \"      \" + \"Qty\" + \"  \"+\"UpatedTime\" )\r",
+							"   console.log(skuid +\"   \"+ quat +\"   \"+ time)\r",
+							"   break;\r",
+							"}else{\r",
+							"    count++\r",
+							"}\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "-X-Subject-Token",
+						"value": "{{token_id}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{Demourl}}/channel/<channel_id>/allocation/merchant/<partner_id>?page=1&page\n_size=100",
+					"host": [
+						"{{Demourl}}"
+					],
+					"path": [
+						"channel",
+						"<channel_id>",
+						"allocation",
+						"merchant",
+						"<partner_id>"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "page\n_size",
+							"value": "100"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
